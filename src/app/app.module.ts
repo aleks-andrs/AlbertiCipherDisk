@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { EncoderComponent } from './encoder/encoder.component';
 import { DecoderComponent } from './decoder/decoder.component';
 import { AboutComponent } from './about/about.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EncoderComponent,
     DecoderComponent,
-    AboutComponent
+    AboutComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

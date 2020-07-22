@@ -10,6 +10,11 @@ export class EncoderComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
+  onEncode(){
+
+
+  }
 }

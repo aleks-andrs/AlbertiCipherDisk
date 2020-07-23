@@ -100,7 +100,7 @@ export class AlberticipherService {
     while(i < text.length){
       if(this.textSymbols.includes(text.charAt(i))){
         //set initial disk position in here
-        
+
         //try hashsum?
 
 
@@ -108,31 +108,69 @@ export class AlberticipherService {
 
         if(this.rotationCommandChars.includes(text.charAt(i))){
           var cipherText = cipherText + this.cipherTextSymbols[this.textSymbols.indexOf(text.charAt(i))];
-          var rotationPosititions = 1;
+          var diskRotationIndex = 1;
           switch(text.charAt(i)){
-            case "Ā": rotationPosititions = this.Ā;
+            case "Ā": diskRotationIndex = this.Ā;
             break;
-            case "Ē": rotationPosititions = this.Ē;
+            case "Ē": diskRotationIndex = this.Ē;
             break;
-            case "Ī": rotationPosititions = this.Ī;
+            case "Ī": diskRotationIndex = this.Ī;
             break;
-            case "Ō": rotationPosititions = this.Ō;
+            case "Ō": diskRotationIndex = this.Ō;
             break;
-            case "Ū": rotationPosititions = this.Ū;
+            case "Ū": diskRotationIndex = this.Ū;
             break;
-            case "Ĥ": rotationPosititions = this.Ĥ;
+            case "Ĥ": diskRotationIndex = this.Ĥ;
             break;
           }
-          this.shiftDisk(rotationPosititions);
+          this.shiftDisk(diskRotationIndex);
         }else{
           var cipherText = cipherText + this.cipherTextSymbols[this.textSymbols.indexOf(text.charAt(i))];
         }
       }
       else{
+        //encoding error
         return null;
       }
       i++;
     }
     return cipherText;
+  }
+
+  decode(cText){
+    var pText = "";
+    var i = 0;
+    while(i<cText.length){
+      if(this.cipherTextSymbols.includes(cText.charAt(i))){
+        //set disk initial position here
+
+        var currentSymbol = this.textSymbols[this.cipherTextSymbols.indexOf(cText.charAt(i))];
+        if(this.rotationCommandChars.includes(currentSymbol)){
+          var diskRotationIndex = 1;
+          switch(currentSymbol){
+            case "Ā": diskRotationIndex = this.Ā;
+            break;
+            case "Ē": diskRotationIndex = this.Ē;
+            break;
+            case "Ī": diskRotationIndex = this.Ī;
+            break;
+            case "Ō": diskRotationIndex = this.Ō;
+            break;
+            case "Ū": diskRotationIndex = this.Ū;
+            break;
+            case "Ĥ": diskRotationIndex = this.Ĥ;
+            break;
+          }
+          this.shiftDisk(diskRotationIndex);
+        }else{
+          pText = pText + currentSymbol;
+        }
+      }else{
+        //decoding error
+        return null;
+      }
+      i++;
+    }
+    return pText;
   }
 }

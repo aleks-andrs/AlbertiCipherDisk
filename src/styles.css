@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  background-color: #A9A9A9;
+  font-size: 17px;
+  color: white
+}
+
+.w3-button {
+  font-family: "Quicksand-SemiBold", sans-serif;
+  border-style: solid;
+  border-color: gray;
+}

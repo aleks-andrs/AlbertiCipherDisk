@@ -8,6 +8,7 @@ import { AlberticipherService } from './../services/alberticipher.service';
 })
 export class DecoderComponent implements OnInit {
   textInput: string;
+  password: string;
 
   constructor(
     private albertiCipherService: AlberticipherService
@@ -21,7 +22,7 @@ export class DecoderComponent implements OnInit {
 
 
     //decode text
-    var decodedMsg = this.albertiCipherService.decode(this.textInput);
+    var decodedMsg = this.albertiCipherService.decode(this.textInput, this.password);
     alert(decodedMsg);
 
   }

@@ -8,6 +8,7 @@ import { AlberticipherService } from './../services/alberticipher.service';
 })
 export class EncoderComponent implements OnInit {
   textInput: string;
+  password: string;
 
   constructor(
     private albertiCipherService: AlberticipherService
@@ -24,7 +25,7 @@ export class EncoderComponent implements OnInit {
     //process password and add rotation commands
     var extendedPlainText = this.albertiCipherService.addRotationCommands(this.textInput);
     //encode the plaintext and return ciphertext
-    var cipherText = this.albertiCipherService.encode(extendedPlainText);
+    var cipherText = this.albertiCipherService.encode(extendedPlainText, this.password);
     if(cipherText){
       alert(cipherText);
     }else{

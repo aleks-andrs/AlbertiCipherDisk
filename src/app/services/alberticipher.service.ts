@@ -16,13 +16,14 @@ export class AlberticipherService {
   "Ā" ,"Ē" ,"Ī" ,"Ō" ,"Ū" ,"Ĥ"];
 
   //cipher text symbols
-  cipherTextSymbols = ["u" ,"0" ,"t" ,"K" ,"e" ,"g" ,"[" ,"X" ,"~" ,"ć" ,
+  constantArr = ["u" ,"0" ,"t" ,"K" ,"e" ,"g" ,"[" ,"X" ,"~" ,"ć" ,
   "F" ,"%" ,"I" ,"o" ,"q" ,"Ú" ,"6" ,"r" ,"Q" ,"ě" ,"h" ,"p" ,"|" ,"E" ,"ó" ,
   "d" ,"b" ,"s" ,"i" ,")" ,"l" ,"5" ,"B" ,"f" ,"^" ,"2" ,"\\" ,"n" ,"\"" ,":" ,
   "}" ,"ģ" ,"G" ,"S" ,"1" ,"]" ,"R" ,"<" ,"y" ,"Z" ,"N" ,"." ,"c" ,"/" ,"&" ,
   "(" ,"a" ,"#" ,"k" ,";" ,"W" ,"D" ,"?" ,"w" ,"U" ,"P" ,"@" ,"T" ,"v" ,"9" ,
   "," ,"3" ,"O" ,"!" ,"z" ,"j" ,"A" ,"7" ,"J" ,"Õ" ,"-" ,"*" ,"8" ,"{" ,"H" ,
   "V" ,"x" ,"m" ,"$" ,"`" ,"_" ,"L" ,"=" ,">" ,"+" ,"Á" ,"C" ,"Y" ,"4" ,"'" ,"M"];
+  cipherTextSymbols = [];
 
   //rotation command characters
   rotationCommandChars = "ĀĒĪŌŪĤ";
@@ -37,6 +38,9 @@ export class AlberticipherService {
 
   //rotation direction
   isRight: Boolean = true;
+
+  //initial position
+  initialDiskPosition: number = 0;
 
   constructor() { }
 
@@ -57,25 +61,59 @@ export class AlberticipherService {
   }
 
 
+  processPassword(pass){
+    //compute a hash out of password
+    var hash = this.hashCode(pass);
+    //set rotation direction depending on the hash value
+    if(hash%2 == 0){
+      this.isRight = true;
+    }
+    else{
+      this.isRight = false;
+    }
+    //set rotation indexes
+    var indexedNum = hash*314159;
+    if(indexedNum < 0){
+      indexedNum = indexedNum*(-1);
+    }
+    var numArray = this.splitDigits(indexedNum);
+    if (numArray.length > 6){
+      //always increment to avoid getting index 0
+      this.Ā = numArray[0] + 1;
+      this.Ē = numArray[1] + 1;
+      this.Ī = numArray[2] + 1;
+      this.Ō = numArray[3] + 1;
+      this.Ū = numArray[4] + 1;
+      this.Ĥ = numArray[5] + 1;
+    }
+    //set initial disk position
+    var strNumber = numArray[0].toString() + numArray[1].toString();
+    this.initialDiskPosition = parseInt(strNumber, 10);
+  }
+
+
+  hashCode(p){
+    //calculate hash
+    return p.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
+  }
+
+
+  splitDigits(n) {
+    //split the digits into array
+    return Array.from(String(n), Number);
+  }
+
   shiftLeft(){
     //shift disk to the left
-    var i = 0;
-    while(i < 1){
-      var firstElement = this.cipherTextSymbols.shift();
-      this.cipherTextSymbols.push(firstElement);
-      i++;
-    }
+    var firstElement = this.cipherTextSymbols.shift();
+    this.cipherTextSymbols.push(firstElement);
   }
 
 
   shiftRight(){
     //shift disk to the right
-    var i = 0;
-    while(i < 1){
-      var lastElement = this.cipherTextSymbols.pop();
-      this.cipherTextSymbols.unshift(lastElement);
-      i++;
-    }
+    var lastElement = this.cipherTextSymbols.pop();
+    this.cipherTextSymbols.unshift(lastElement);
   }
 
   shiftDisk(rotationIndex){
@@ -94,18 +132,18 @@ export class AlberticipherService {
     }
   }
 
-  encode(text){
+  encode(text, ePassword){
+    //reset array
+    this.cipherTextSymbols = [...this.constantArr];
+    //process encoding password
+    this.processPassword(ePassword);
     var cipherText = "";
     var i = 0;
     while(i < text.length){
       if(this.textSymbols.includes(text.charAt(i))){
-        //set initial disk position in here
-
-        //try hashsum?
-
-
-
-
+        //set initial disk position
+        this.shiftDisk(this.initialDiskPosition);
+        //encode
         if(this.rotationCommandChars.includes(text.charAt(i))){
           var cipherText = cipherText + this.cipherTextSymbols[this.textSymbols.indexOf(text.charAt(i))];
           var diskRotationIndex = 1;
@@ -137,13 +175,18 @@ export class AlberticipherService {
     return cipherText;
   }
 
-  decode(cText){
+  decode(cText, dPassword){
+    //reset array
+    this.cipherTextSymbols = [...this.constantArr];
+    //process password
+    this.processPassword(dPassword);
     var pText = "";
     var i = 0;
     while(i<cText.length){
       if(this.cipherTextSymbols.includes(cText.charAt(i))){
-        //set disk initial position here
-
+        //set disk initial position
+        this.shiftDisk(this.initialDiskPosition);
+        //decode
         var currentSymbol = this.textSymbols[this.cipherTextSymbols.indexOf(cText.charAt(i))];
         if(this.rotationCommandChars.includes(currentSymbol)){
           var diskRotationIndex = 1;

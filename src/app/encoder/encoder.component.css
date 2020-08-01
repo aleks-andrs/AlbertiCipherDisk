@@ -1,0 +1,11 @@
+div.w3-padding{
+  max-width: 800px;
+  margin: auto;
+}
+div.w3-row-padding{
+  max-width: 800px;
+  margin: auto;
+}
+.w3-button{
+  min-width: 100%;
+}

@@ -1,3 +1,13 @@
-<input class="w3-input" [(ngModel)]="textInput" name="textInput" placeholder="Text to decode" ><br>
-<input class="w3-input" [(ngModel)]="password" name="password" placeholder="Password"><br>
-<button type="button" (click)="onDecode()">Decode</button>
+<div class="w3-padding-large">
+  <div class="w3-padding" id="textAreaInput">
+    <textarea class="w3-input w3-border w3-round" [(ngModel)]="textInput" name="textInput" placeholder="Text to decode" rows="8"></textarea>
+  </div>
+  <div class="w3-row-padding">
+    <div class="w3-half">
+      <input class="w3-input w3-border w3-round" [(ngModel)]="password" name="password" placeholder="Password">
+    </div>
+    <div class="w3-half">
+      <button class="w3-button w3-light-gray w3-ripple w3-round-xxlarge" (click)="onDecode()">Decode</button>
+    </div>
+  </div>
+</div>

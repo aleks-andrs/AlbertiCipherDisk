@@ -10,4 +10,8 @@
       <button class="w3-button w3-light-gray w3-ripple w3-round-xxlarge" (click)="onDecode()">Decode</button>
     </div>
   </div>
+  <div *ngIf="visibleTxt" class="w3-padding" id="textAreaInput">
+    <p>Decoded text:</p>
+    <textarea class="w3-input w3-border w3-round" [(ngModel)]="textOutput" name="textOutput" placeholder="Decoded text" rows="8"></textarea>
+  </div>
 </div>

@@ -21,7 +21,7 @@ export class AlberticipherService {
   "Ù" , "f" , "ä" , "À" , "Ì" , "W" , "g" , "9" , "j" , "3" , "v" , "B" , "ã" , "5" ,
   "L" , "O" , "7" , "Í" , "o" , "Õ" , "Ï" , "2" , "b" , "î" , "s" , "Ã" , "è" , "x" ,
   "c" , "m" , "X" , "e" , "V" , "q" , "é" , "Z" , "Ê" , "0" , "C" , "í" , "ê" , "R" ,
-  "t" , "Ä" , "Ë" , "Y" , "T" , "â" , "k" , "ó" , "w" , "ë" , "n" , "N" , "J" , "4" , 
+  "t" , "Ä" , "Ë" , "Y" , "T" , "â" , "k" , "ó" , "w" , "ë" , "n" , "N" , "J" , "4" ,
   "r" , "A" , "Î" , "6" , "ì" , "u" , "Ú" , "ô" , "P" , "F" , "á" , "U" , "Q" , "y" ,
   "Á" , "h" , "à" , "Ö" , "I" , "1" , "p" ]
   cipherTextSymbols = [];
@@ -139,11 +139,11 @@ export class AlberticipherService {
     //process encoding password
     this.processPassword(ePassword);
     var cipherText = "";
+    //set initial disk position
+    this.shiftDisk(this.initialDiskPosition);
     var i = 0;
     while(i < text.length){
       if(this.textSymbols.includes(text.charAt(i))){
-        //set initial disk position
-        this.shiftDisk(this.initialDiskPosition);
         //encode
         if(this.rotationCommandChars.includes(text.charAt(i))){
           var cipherText = cipherText + this.cipherTextSymbols[this.textSymbols.indexOf(text.charAt(i))];
@@ -182,11 +182,11 @@ export class AlberticipherService {
     //process password
     this.processPassword(dPassword);
     var pText = "";
+    //set disk initial position
+    this.shiftDisk(this.initialDiskPosition);
     var i = 0;
     while(i<cText.length){
       if(this.cipherTextSymbols.includes(cText.charAt(i))){
-        //set disk initial position
-        this.shiftDisk(this.initialDiskPosition);
         //decode
         var currentSymbol = this.textSymbols[this.cipherTextSymbols.indexOf(cText.charAt(i))];
         if(this.rotationCommandChars.includes(currentSymbol)){

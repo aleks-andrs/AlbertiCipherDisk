@@ -28,5 +28,13 @@ export class ValidationService {
       return false;
     }
   }
+  //validate input is not undefined
+  validateUndefined(userInput){
+    if(userInput == "" || userInput == null){
+      return true;
+    }else{
+      return false;
+    }
+  }
 
 }

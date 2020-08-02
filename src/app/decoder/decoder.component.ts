@@ -22,6 +22,15 @@ export class DecoderComponent implements OnInit {
   }
 
   onDecode(){
+    //validate fields are not empty
+    if(this.validationService.validateUndefined(this.textInput)){
+      alert("No message to decode!");
+      return;
+    }
+    if(this.validationService.validateUndefined(this.password)){
+      alert("Password is missing!");
+      return;
+    }
     //perform text validation
     if(!this.validationService.validateExtendedInput(this.textInput)){
       alert("Restricted characters found in ciphertext!");
